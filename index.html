@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تيلجراف | تطبيق دردشة آمن</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-dark: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #000000);
+            --bg-gradient-light: linear-gradient(135deg, #e0eafc, #cfdef3, #f5f7fa, #ffffff);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-color: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --accent-glow: #00d2ff;
+        }
+
+        [data-theme="light"] {
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-color: #1a1a1a;
+            --text-muted: rgba(0, 0, 0, 0.6);
+            --accent-glow: #0077b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient-dark);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.8s ease, color 0.8s ease;
+        }
+
+        [data-theme="light"] body {
+            background: var(--bg-gradient-light);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-shadow: 0 0 15px var(--accent-glow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle {
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 40px;
+        }
+
+        .hero-logo {
+            width: 120px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .app-name-ar {
+            font-size: 4rem;
+            margin-bottom: 5px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .app-name-en {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            padding: 15px 50px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, #00d2ff, #3a47d5);
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.6);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 60px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .feature-card {
+            flex: 1 1 300px;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 25px;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .section-title {
+            width: 100%;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            font-weight: 800;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-name-ar { font-size: 2.8rem; }
+            .app-name-en { font-size: 1.4rem; }
+            .hero p { font-size: 1rem; }
+            .section-title { font-size: 1.6rem; }
+            .nav-logo { width: 30px; height: 30px; }
+            .logo-text { font-size: 1.3rem; }
+            .hero-logo { width: 90px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass">
+        <div class="nav-brand" onclick="secretTap()">
+            <img src="telegraph-Photoroom.png" alt="Logo" class="nav-logo">
+            <span class="logo-text">تيلجراف</span>
+        </div>
+        <div id="themeToggle" class="theme-toggle glass" onclick="toggleTheme()">الوضع الفاتح</div>
+    </header>
+
+    <section class="hero">
+        <img src="telegraph-Photoroom.png" alt="Telegraph App Logo" class="hero-logo">
+        
+        <h1 class="app-name-ar">تيلجراف</h1>
+        <h2 class="app-name-en">Telegraph</h2>
+        
+        <p>تطبيق دردشة آمن. رسائلك مشفرة بالكامل ومحمية من أي طرف خارجي.</p>
+        
+        <!-- زر التحميل - اللينك فاضي -->
+        <a href="" class="cta-btn">
+            ⬇️ حمّل التطبيق الآن
+        </a>
+    </section>
+
+    <section id="features" class="section">
+        <h2 class="section-title">لماذا تيلجراف؟</h2>
+        
+        <div class="feature-card glass">
+            <span class="feature-icon">🔒</span>
+            <h3 class="feature-title">أمان تام</h3>
+            <p class="feature-desc">جميع رسائلكم مشفرة من طرف إلى طرف. لا يمكن لأي شخص آخر قراءتها.</p>
+        </div>
+
+        <div class="feature-card glass">
+            <span class="feature-icon">🕵️</span>
+            <h3 class="feature-title">محادثات سرية</h3>
+            <p class="feature-desc">يمكنك إخفاء محادثاتك الخاصة في خزنة سرية محمية بكلمة مرور مستقلة.</p>
+        </div>
+
+        <div class="feature-card glass">
+            <span class="feature-icon">🧊</span>
+            <h3 class="feature-title">تصميم بسيط</h3>
+            <p class="feature-desc">واجهة نظيفة وسريعة لتجربة استخدام مريحة دون أي تعقيدات.</p>
+        </div>
+
+        <div class="feature-card glass">
+            <span class="feature-icon">✨</span>
+            <h3 class="feature-title">تحكم كامل</h3>
+            <p class="feature-desc">نسخ، مسح للجميع أو لنفسك فقط، وإرسال ملفات وصور بسهولة.</p>
+        </div>
+    </section>
+
+    <footer class="glass" style="margin: 20px; border-radius: 20px;">
+        <p>تيلجراف © 2023. دردشة آمنة وبسيطة.</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const toggleBtn = document.getElementById('themeToggle');
+            
+            if (currentTheme === 'light') {
+                body.removeAttribute('data-theme');
+                toggleBtn.innerText = 'الوضع الفاتح';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                toggleBtn.innerText = 'الوضع الداكن';
+            }
+        }
+
+        let tapCount = 0;
+        let tapTimer;
+        function secretTap() {
+            tapCount++;
+            clearTimeout(tapTimer);
+            if (tapCount >= 5) {
+                alert('🕵️ لقد اكتشفت الخزنة السرية!');
+                tapCount = 0;
+                return;
+            }
+            tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+        }
+    </script>
+</body>
+</html>
